@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:postapp/presentation/features/posts/posts.dart';
+
 class PostsScreen extends StatefulWidget {
   const PostsScreen({super.key});
 
@@ -8,33 +10,50 @@ class PostsScreen extends StatefulWidget {
 }
 
 class _PostsScreenState extends State<PostsScreen> {
-  int _counter = 0;
+  late TextEditingController _searchController;
 
-  void _incrementCounter() => setState(() => _counter++);
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Posts'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+    final colors = Theme.of(context).colorScheme;
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'PostApp',
+            style: TextStyle(
+              color: colors.onPrimary,
+              fontWeight: FontWeight.bold,
             ),
-          ],
+          ),
+          backgroundColor: colors.primary,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        backgroundColor: colors.surfaceDim,
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: SearchTextField(
+                  controller: _searchController,
+                  fillColor: colors.surface,
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 30,
+                  itemBuilder: (context, index) => const PostItem(),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
