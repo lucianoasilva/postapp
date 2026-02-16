@@ -1,13 +1,14 @@
 name: postapp
 description: "Example application to list posts, like them, filter them using a search bar, and view their associated comments."
 publish_to: 'none'
-version: 1.0.1+2
+version: 1.0.2+3
 
 environment:
   sdk: ^3.9.2
 
 dependencies:
   bloc: ^9.1.0
+  bloc_test: ^10.0.0
   build_runner: ^2.4.15
   cupertino_icons: ^1.0.8
 
@@ -22,6 +23,7 @@ dependencies:
   http: ^1.6.0
   hydrated_bloc: ^10.1.1
   json_annotation: ^4.9.0
+  mocktail: ^1.0.4
   path_provider: ^2.1.5
   pretty_http_logger: ^1.0.5
   very_good_analysis: ^10.0.0

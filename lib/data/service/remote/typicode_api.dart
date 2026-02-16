@@ -13,9 +13,7 @@ class TypicodeApi {
 
   final String _baseUrl;
 
-  final logger.HttpWithMiddleware _http = logger.HttpWithMiddleware.build(
-    middlewares: [logger.HttpLogger()],
-  );
+  final logger.HttpWithMiddleware _http = logger.HttpWithMiddleware.build();
 
   ApiFailure _handleResponseFailure(Response response) {
     final message = response.body;
