@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:postapp/presentation/features/posts/posts.dart';
 
-class PostsScreen extends StatefulWidget {
+class PostsScreen extends StatelessWidget {
   const PostsScreen({super.key});
-
-  @override
-  State<PostsScreen> createState() => _PostsScreenState();
-}
-
-class _PostsScreenState extends State<PostsScreen> {
-  late TextEditingController _searchController;
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController = TextEditingController();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,22 +24,28 @@ class _PostsScreenState extends State<PostsScreen> {
         backgroundColor: colors.surfaceDim,
         body: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: SearchTextField(
-                  controller: _searchController,
-                  fillColor: colors.surface,
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 30,
-                  itemBuilder: (context, index) => const PostItem(),
-                ),
-              ),
-            ],
+          child: BlocBuilder<PostsCubit, PostsState>(
+            builder: (context, state) {
+              if (state is PostsFailureState) {
+                return const Center(
+                  child: Text('Error. Intente nuevamente.'),
+                );
+              }
+
+              if (state is PostsSuccessState) {
+                final posts = state.posts;
+
+                if (posts.isEmpty) {
+                  return const Center(
+                    child: Text('No hay posteos para mostrar.'),
+                  );
+                }
+
+                return const PostsList();
+              }
+
+              return const Center(child: CircularProgressIndicator());
+            },
           ),
         ),
       ),

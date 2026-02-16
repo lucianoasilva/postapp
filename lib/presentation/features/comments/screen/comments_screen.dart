@@ -29,14 +29,12 @@ class _CommentsScreenState extends State<CommentsScreen> {
           backgroundColor: colors.primary,
         ),
         backgroundColor: colors.surfaceDim,
-        body: Padding(
+        body: ListView(
           padding: const EdgeInsets.all(16),
-          child: ListView(
-            children: [
-              const PostDetails(),
-              CommentItem(tileColor: colors.surface, isLast: true),
-            ],
-          ),
+          children: [
+            const PostDetails(),
+            CommentItem(tileColor: colors.surface, isLast: true),
+          ],
         ),
       ),
     );
