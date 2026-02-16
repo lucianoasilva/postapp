@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:postapp/data/repository_implementation/native_repository_impl.dart';
 
 import 'package:postapp/domain/repository/repository.dart';
+import 'package:postapp/presentation/features/app/app.dart';
 import 'package:postapp/presentation/features/posts/posts.dart';
 import 'package:postapp/presentation/resources/router/router.dart';
 
@@ -32,6 +33,7 @@ class _AppState extends State<App> {
                 PostsCubit(typicodeRepository: widget._typicodeRepository)
                   ..getPosts(),
           ),
+          BlocProvider(create: (_) => LikesCubit()),
         ],
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,

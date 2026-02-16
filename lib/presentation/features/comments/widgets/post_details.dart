@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:postapp/domain/entities/entities.dart';
+import 'package:postapp/presentation/features/app/app.dart';
 import 'package:postapp/presentation/resources/widgets/widgets.dart';
 
 class PostDetails extends StatelessWidget {
@@ -49,11 +51,29 @@ class PostDetails extends StatelessWidget {
               const SizedBox(height: 16),
               Text(post.body),
               const SizedBox(height: 16),
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.favorite, color: Colors.redAccent),
-                  SizedBox(width: 8),
-                  Text('Me gusta'),
+                  IconButton(
+                    icon: BlocBuilder<LikesCubit, LikesState>(
+                      builder: (context, state) {
+                        final set = state.likedPostIds;
+                        if (set.isNotEmpty && set.contains(post.id)) {
+                          return const Icon(
+                            Icons.favorite,
+                            color: Colors.redAccent,
+                          );
+                        }
+                        return const Icon(
+                          Icons.favorite_border_outlined,
+                        );
+                      },
+                    ),
+                    onPressed: () {
+                      context.read<LikesCubit>().setLike(post.id);
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  const Text('Me gusta'),
                 ],
               ),
             ],

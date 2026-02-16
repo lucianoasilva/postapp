@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:postapp/domain/entities/entities.dart';
+import 'package:postapp/presentation/features/app/app.dart';
 import 'package:postapp/presentation/resources/router/router.dart';
 import 'package:postapp/presentation/resources/widgets/widgets.dart';
 
@@ -45,7 +47,15 @@ class PostItem extends StatelessWidget {
             ],
           ),
           subtitle: Text(post.body),
-          trailing: const Icon(Icons.favorite, color: Colors.redAccent),
+          trailing: BlocBuilder<LikesCubit, LikesState>(
+            builder: (context, state) {
+              final set = state.likedPostIds;
+              if (set.isNotEmpty && set.contains(post.id)) {
+                return const Icon(Icons.favorite, color: Colors.redAccent);
+              }
+              return const SizedBox.shrink();
+            },
+          ),
           onTap: () => context.push(Routes.comments, extra: post),
         ),
       ),
