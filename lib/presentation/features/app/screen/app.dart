@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:postapp/data/repository_implementation/native_repository_impl.dart';
 
 import 'package:postapp/domain/repository/repository.dart';
 import 'package:postapp/presentation/features/posts/posts.dart';
@@ -16,10 +17,14 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  final NativeRepository _nativeRepository = NativeRepositoryImpl();
+
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<TypicodeRepository>(
-      create: (_) => widget._typicodeRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<NativeRepository>(create: (_) => _nativeRepository),
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<PostsCubit>(

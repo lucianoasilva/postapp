@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 
-class CommentItem extends StatelessWidget {
-  const CommentItem({required this.tileColor, this.isLast = false, super.key});
+import 'package:postapp/domain/entities/entities.dart';
 
+class CommentItem extends StatelessWidget {
+  const CommentItem({
+    required this.tileColor,
+    required this.comment,
+    this.isLast = false,
+    super.key,
+  });
+
+  final Comment comment;
   final Color tileColor;
   final bool isLast;
 
@@ -14,20 +22,18 @@ class CommentItem extends StatelessWidget {
         children: [
           ListTile(
             tileColor: tileColor,
-            title: const Column(
+            title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Nombre',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'email',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
+                Text(comment.name, style: const TextStyle(fontSize: 18)),
+                const SizedBox(height: 8),
+                Text(comment.email, style: const TextStyle(fontSize: 16)),
               ],
             ),
-            subtitle: const Text('Este es el cuerpo del post'),
+            subtitle: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Text(comment.body),
+            ),
           ),
           if (!isLast)
             Container(

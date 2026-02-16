@@ -1,39 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:postapp/domain/entities/entities.dart';
+import 'package:postapp/domain/repository/repository.dart';
 import 'package:postapp/presentation/features/comments/comments.dart';
 
-class CommentsScreen extends StatelessWidget {
+class CommentsScreen extends StatefulWidget {
   const CommentsScreen({required this.post, super.key});
 
   final Post post;
 
   @override
+  State<CommentsScreen> createState() => _CommentsScreenState();
+}
+
+class _CommentsScreenState extends State<CommentsScreen> {
+  late CommentsCubit _commentsCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _commentsCubit = CommentsCubit(
+      nativeRepository: RepositoryProvider.of<NativeRepository>(context),
+    )..getComments(postId: widget.post.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'User ${post.userId}',
-            style: TextStyle(
-              color: colors.onPrimary,
-              fontWeight: FontWeight.bold,
+    return BlocProvider.value(
+      value: _commentsCubit,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'User ${widget.post.userId}',
+              style: TextStyle(
+                color: colors.onPrimary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            leading: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: Icon(Icons.close, color: colors.onPrimary),
+            ),
+            backgroundColor: colors.primary,
           ),
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(Icons.close, color: colors.onPrimary),
+          backgroundColor: colors.surfaceDim,
+          body: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(child: PostDetails(post: widget.post)),
+
+              BlocBuilder<CommentsCubit, CommentsState>(
+                builder: (context, state) {
+                  if (state is CommentsFailureState) {
+                    return const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Center(
+                        child: Text(
+                          'Error. No pudieron obtenerse los comentarios.',
+                        ),
+                      ),
+                    );
+                  }
+
+                  if (state is CommentsSuccessState) {
+                    final comments = state.comments;
+
+                    if (comments.isEmpty) {
+                      return const SliverToBoxAdapter(child: SizedBox.shrink());
+                    }
+
+                    return SliverPadding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
+                      sliver: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => CommentItem(
+                            comment: comments[index],
+                            tileColor: colors.surface,
+                            isLast: index == comments.length - 1,
+                          ),
+                          childCount: comments.length,
+                        ),
+                      ),
+                    );
+                  }
+
+                  return const SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                },
+              ),
+            ],
           ),
-          backgroundColor: colors.primary,
-        ),
-        backgroundColor: colors.surfaceDim,
-        body: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            PostDetails(post: post),
-            CommentItem(tileColor: colors.surface, isLast: true),
-          ],
         ),
       ),
     );

@@ -3,7 +3,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:postapp/data/repository_implementation/repository_implementation.dart';
-import 'package:postapp/data/service/remote/remote.dart';
+import 'package:postapp/data/service/service.dart';
 import 'package:postapp/domain/repository/repository.dart';
 import 'package:postapp/presentation/features/app/app.dart';
 
