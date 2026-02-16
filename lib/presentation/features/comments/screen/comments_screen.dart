@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+
+import 'package:postapp/domain/entities/entities.dart';
 import 'package:postapp/presentation/features/comments/comments.dart';
 
-class CommentsScreen extends StatefulWidget {
-  const CommentsScreen({super.key});
+class CommentsScreen extends StatelessWidget {
+  const CommentsScreen({required this.post, super.key});
 
-  @override
-  State<CommentsScreen> createState() => _CommentsScreenState();
-}
+  final Post post;
 
-class _CommentsScreenState extends State<CommentsScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -16,7 +15,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'User 1',
+            'User ${post.userId}',
             style: TextStyle(
               color: colors.onPrimary,
               fontWeight: FontWeight.bold,
@@ -32,7 +31,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
         body: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            const PostDetails(),
+            PostDetails(post: post),
             CommentItem(tileColor: colors.surface, isLast: true),
           ],
         ),

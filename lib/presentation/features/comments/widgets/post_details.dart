@@ -1,44 +1,50 @@
 import 'package:flutter/material.dart';
 
+import 'package:postapp/domain/entities/entities.dart';
 import 'package:postapp/presentation/resources/widgets/widgets.dart';
 
 class PostDetails extends StatelessWidget {
-  const PostDetails({super.key});
+  const PostDetails({required this.post, super.key});
+
+  final Post post;
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
+    return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                UserImage(),
-                SizedBox(width: 8),
+                const UserImage(),
+                const SizedBox(width: 8),
                 Text(
-                  'User 1',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  'User ${post.userId}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text(
-              'Este es el título del post',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              post.title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16),
-            Text('Este es el cuerpo del post'),
-            SizedBox(height: 16),
-            Row(
+            const SizedBox(height: 16),
+            Text(post.body),
+            const SizedBox(height: 16),
+            const Row(
               children: [
                 Icon(Icons.favorite, color: Colors.redAccent),
                 SizedBox(width: 8),

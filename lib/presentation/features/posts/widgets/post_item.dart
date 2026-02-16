@@ -46,7 +46,7 @@ class PostItem extends StatelessWidget {
           ),
           subtitle: Text(post.body),
           trailing: const Icon(Icons.favorite, color: Colors.redAccent),
-          onTap: () => context.push(Routes.comments),
+          onTap: () => context.push(Routes.comments, extra: post),
         ),
       ),
     );
