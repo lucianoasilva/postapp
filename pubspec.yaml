@@ -1,22 +1,40 @@
 name: postapp
 description: "Example application to list posts, like them, filter them using a search bar, and view their associated comments."
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.2+3
 
 environment:
   sdk: ^3.9.2
 
 dependencies:
+  bloc: ^9.1.0
+  bloc_test: ^10.0.0
+  build_runner: ^2.4.15
+  cupertino_icons: ^1.0.8
+
+  dartz: ^0.10.1
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.8
+  flutter_bloc: ^9.1.1
+  freezed: ^2.5.8
+  freezed_annotation: ^2.4.4
+  go_router: ^17.1.0
+  http: ^1.6.0
+  hydrated_bloc: ^10.1.1
+  json_annotation: ^4.9.0
+  mocktail: ^1.0.4
+  path_provider: ^2.1.5
+  pretty_http_logger: ^1.0.5
+  very_good_analysis: ^10.0.0
 
 dev_dependencies:
+  flutter_lints: ^5.0.0
+
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
+  json_serializable: ^6.9.4
 
 
 flutter:
