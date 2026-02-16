@@ -1,7 +1,7 @@
 name: postapp
 description: "Example application to list posts, like them, filter them using a search bar, and view their associated comments."
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ^3.9.2
