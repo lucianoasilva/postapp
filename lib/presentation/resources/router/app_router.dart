@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:postapp/domain/entities/entities.dart';
 import 'package:postapp/presentation/features/comments/comments.dart';
 import 'package:postapp/presentation/features/posts/posts.dart';
-
 import 'package:postapp/presentation/resources/router/router.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -19,7 +20,10 @@ final router = GoRouter(
     GoRoute(
       path: Routes.comments,
       name: 'Comments',
-      builder: (_, __) => const CommentsScreen(),
+      builder: (_, state) {
+        final post = state.extra! as Post;
+        return CommentsScreen(post: post);
+      },
     ),
   ],
 );

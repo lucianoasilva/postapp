@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:postapp/presentation/resources/router/router.dart';
 
+import 'package:postapp/domain/entities/entities.dart';
+import 'package:postapp/presentation/resources/router/router.dart';
 import 'package:postapp/presentation/resources/widgets/widgets.dart';
 
 class PostItem extends StatelessWidget {
-  const PostItem({super.key});
+  const PostItem({required this.post, super.key});
+
+  final Post post;
 
   @override
   Widget build(BuildContext context) {
@@ -15,29 +18,35 @@ class PostItem extends StatelessWidget {
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: ListTile(
-          title: const Column(
+          title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  UserImage(),
-                  SizedBox(width: 8),
+                  const UserImage(),
+                  const SizedBox(width: 8),
                   Text(
-                    'User 1',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    'User ${post.userId}',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
-                'Este es el título del post',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                post.title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
-          subtitle: const Text('Este es el cuerpo del post'),
+          subtitle: Text(post.body),
           trailing: const Icon(Icons.favorite, color: Colors.redAccent),
-          onTap: () => context.push(Routes.comments),
+          onTap: () => context.push(Routes.comments, extra: post),
         ),
       ),
     );
