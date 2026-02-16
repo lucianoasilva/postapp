@@ -85,9 +85,7 @@ Para modo “watch”:
 
 ## Configuración de API
 
-- La app consume **JSONPlaceholder** usando el host:
-
-text jsonplaceholder.typicode.com
+- La app consume **JSONPlaceholder** usando el host **jsonplaceholder.typicode.com**
 
 > Nota: el host se configura en `main.dart` como `baseUrl` y se usa para construir `Uri.https(...)`.
 
