@@ -5,21 +5,21 @@ import 'package:postapp/data/service/service.dart';
 import 'package:postapp/domain/entities/entities.dart';
 import 'package:postapp/domain/repository/repository.dart';
 
-class TypicodeRepositoryImpl extends TypicodeRepository {
-  TypicodeRepositoryImpl(this._typicodeApi);
-
-  final TypicodeApi _typicodeApi;
+class NativeRepositoryImpl extends NativeRepository {
+  NativeRepositoryImpl();
 
   @override
-  Future<Either<RepositoryFailure, Posts>> getPosts() async {
-    final result = await _typicodeApi.getPosts();
+  Future<Either<RepositoryFailure, Comments>> getComments({
+    required int postId,
+  }) async {
+    final result = await NativeApi.getComments(postId: postId);
 
     return result.fold((failure) => Left(RepositoryFailure.api(failure)), (
-      postsDTO,
+      commentsDTO,
     ) {
       try {
-        final posts = postsDTO.map(Post.fromDTO).toList();
-        return Right(posts);
+        final comments = commentsDTO.map(Comment.fromDTO).toList();
+        return Right(comments);
       } catch (e) {
         return Left(RepositoryFailure.unknown(e));
       }
